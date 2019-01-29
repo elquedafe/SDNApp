@@ -106,8 +106,8 @@ public class ClientRest extends HttpServlet{
             finally {
             	sc.close();
             }
+            
             json = getJSON(new URL(urlStats + "/" + mapSwitches.get(switchElegido)));
-            System.out.println(json);
             
             
             
