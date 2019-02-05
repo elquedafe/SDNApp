@@ -14,13 +14,14 @@ import arquitectura.Cluster;
 import arquitectura.Entorno;
 import arquitectura.Flow;
 import arquitectura.Link;
+import arquitectura.Switch;
 
-public class JsonParser {
+public class JsonManager {
 	private Link auxLink = null;
 	private Cluster auxCluster = null;
 	private Entorno entorno;
 	private JsonReader reader;
-	public JsonParser(Entorno entorno) {
+	public JsonManager(Entorno entorno) {
 		this.entorno = entorno;
 	}
 	
@@ -55,6 +56,7 @@ public class JsonParser {
 	
 	public void parseoJsonLinks(String json) {
 		String nombre = "";
+		entorno.getListLinks().clear();
 		reader = new JsonReader(new StringReader(json));
 		reader.setLenient(true);
 		try {
@@ -87,6 +89,7 @@ public class JsonParser {
 	}
 
 	public void parseoJsonTopologia(String json) {
+		entorno.getMapSwitches().clear();
 		String nombre = "";
 		reader = new JsonReader(new StringReader(json));
 		reader.setLenient(true);
@@ -175,9 +178,9 @@ public class JsonParser {
 					reader.endObject();
 				}
 				else if(elemento.equals("state") && reader.nextString().equals("ACTIVE")){
-						if(!duplicado(auxLink))
-							entorno.addLink(auxLink);
-						auxLink = null;
+					if(!duplicado(auxLink))
+						entorno.addLink(auxLink);
+					auxLink = null;
 				}
 				else
 					reader.skipValue();
@@ -198,11 +201,16 @@ public class JsonParser {
 				duplicado = true;
 				break;
 			}
+			else if(link.getDst().equals(nuevoLink.getDst()) && link.getDstPort().equals(nuevoLink.getDstPort()) && link.getSrc().equals(nuevoLink.getSrc()) && link.getSrcPort().equals(nuevoLink.getSrcPort())) {
+				duplicado = true;
+				break;
+			}
 		}
 		return duplicado;
 	}
 
 	public void parseoJsonClusters(String json) {
+		entorno.getListClusters().clear();
 		String nombre = "";
 		reader = new JsonReader(new StringReader(json));
 		reader.setLenient(true);
@@ -235,7 +243,7 @@ public class JsonParser {
 		
 	}
 
-	private void leerElementoArrayClusters(JsonReader reader2) {
+	private void leerElementoArrayClusters(JsonReader reader) {
 		String elemento = "";
 		try {
 			reader.beginObject();
@@ -297,7 +305,7 @@ public class JsonParser {
 		
 	}
 	
-	private double leerElementoArrayPaths(JsonReader reader2) {
+	private double leerElementoArrayPaths(JsonReader reader) {
 		String elemento = "";
 		double coste = 0;
 		try {
@@ -318,6 +326,9 @@ public class JsonParser {
 	}
 
 	public void parseoJsonFlow(String json) {
+		for(Switch sw : entorno.getMapSwitches().values()){
+			sw.getMapFlows().clear();
+		}
 		String nombre = "";
 		reader = new JsonReader(new StringReader(json));
 		reader.setLenient(true);

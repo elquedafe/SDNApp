@@ -87,6 +87,6 @@ public class Flow {
 	}
 	
 	public String toString() {
-		return this.ovs + " --> " + this.ovs + " | " + this.nPaquetes+ " paquetes | " + this.nBytes + " bytes";
+		return this.ovs + "\t--> " + "\t| " + this.nPaquetes+ " paquetes\t|\t" + this.nBytes + " bytes";
 	}
 }

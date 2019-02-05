@@ -12,7 +12,7 @@ import arquitectura.Entorno;
 import arquitectura.Flow;
 import arquitectura.Link;
 import arquitectura.Switch;
-import tools.JsonParser;
+import tools.JsonManager;
 
 
 public class OnosClient extends HttpServlet{
@@ -25,7 +25,7 @@ public class OnosClient extends HttpServlet{
 		String json = "";
 		final String endpoint = "http://192.168.56.101:8181/onos/v1";
 		Entorno entorno = new Entorno();
-		JsonParser parser = new JsonParser(entorno);
+		JsonManager parser = new JsonManager(entorno);
 		try {
 			URL urlClusters = new URL(endpoint + "/cluster");
 			URL urlTopology = new URL(endpoint + "/devices");

@@ -56,7 +56,7 @@ public class Link {
 	}
 	
 	public String toString() {
-		return this.src + "(port: " + this.srcPort + ") <----> " + " (port: " + this.dstPort + ")" + this.dst + "\t Coste: " + this.cost;
+		return this.src + "/" + this.srcPort + " <-> " + this.dst + "/" + this.dstPort + "\t Coste: " + this.cost;
 	}
 	
 }
