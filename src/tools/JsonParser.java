@@ -1,3 +1,4 @@
+package tools;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -174,7 +175,8 @@ public class JsonParser {
 					reader.endObject();
 				}
 				else if(elemento.equals("state") && reader.nextString().equals("ACTIVE")){
-						entorno.addLink(auxLink);
+						if(!duplicado(auxLink))
+							entorno.addLink(auxLink);
 						auxLink = null;
 				}
 				else
@@ -188,6 +190,17 @@ public class JsonParser {
 	}
 	
 	
+
+	private boolean duplicado(Link nuevoLink) {
+		boolean duplicado = false;
+		for(Link link : entorno.getListLinks()) {
+			if(link.getDst().equals(nuevoLink.getSrc()) && link.getDstPort().equals(nuevoLink.getSrcPort()) && link.getSrc().equals(nuevoLink.getDst()) && link.getSrcPort().equals(nuevoLink.getDstPort())) {
+				duplicado = true;
+				break;
+			}
+		}
+		return duplicado;
+	}
 
 	public void parseoJsonClusters(String json) {
 		String nombre = "";

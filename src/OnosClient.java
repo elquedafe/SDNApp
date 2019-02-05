@@ -12,6 +12,7 @@ import arquitectura.Entorno;
 import arquitectura.Flow;
 import arquitectura.Link;
 import arquitectura.Switch;
+import tools.JsonParser;
 
 
 public class OnosClient extends HttpServlet{
@@ -45,7 +46,7 @@ public class OnosClient extends HttpServlet{
 
 			System.out.println("\n***SWITCHES***");
 			for (Entry<String, Switch> auxswitch : entorno.getMapSwitches().entrySet()) {      
-				System.out.println("\t" + auxswitch.getKey() + ".- " + auxswitch.getValue().getId());
+				System.out.println("\t" + auxswitch.getKey());
 			}
 
 			//ENLACES
